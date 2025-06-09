@@ -4,6 +4,8 @@ import * as directives from 'vuetify/directives'
 import { aliases, mdi } from 'vuetify/iconsets/mdi'
 
 
+
+
 export default createVuetify({
   icons: {
     defaultSet: 'mdi',
@@ -20,7 +22,7 @@ export default createVuetify({
       light: {
         dark: false,
         colors: {
-          primary: '#2C3E50',  // Azul indigo
+          primary: '#3F51B5',  // Azul indigo
           secondary: '#483C32', // taupe 
         }
       }
