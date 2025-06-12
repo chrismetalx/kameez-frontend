@@ -4,6 +4,8 @@
   import axios from 'axios';
   import { useRouter } from 'vue-router';
 
+  console.log(`Env api url ${import.meta.env.VITE_APP_API_URL}`)
+
   //toast
   const notify = () => {
     toast.success(' User created successfully', {
@@ -37,7 +39,7 @@
 
       errorMessage.value = '';
       
-      const { data } = await axios.get(`http://localhost:3000/user`);
+      const { data } = await axios.get(`${import.meta.env.VITE_APP_API_URL}/user`);
 
       const checkEmail = data.find(userEmail => userEmail.email === user.value.email);
 
@@ -60,7 +62,7 @@
         password: user.value.password,
       }
 
-      await axios.post('http://localhost:3000/user', newUser);
+      await axios.post(`${import.meta.env.VITE_APP_API_URL}/user`, newUser);
 
       user.value.firstName = "";
       user.value.lastName = "";
