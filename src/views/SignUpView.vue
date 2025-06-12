@@ -1,12 +1,86 @@
 <script setup>
   import { ref } from 'vue'
   import { toast } from 'vue3-toastify';
-  const visible = ref(false)
-  const terms = ref(false)
+  import axios from 'axios';
+  import { useRouter } from 'vue-router';
+
+  //toast
+  const notify = () => {
+    toast.success(' User created successfully', {
+      autoClose: 3000,
+      position: toast.POSITION.BOTTOM_RIGHT,
+    });
+  };
+
+  const visible = ref(false);
+  const terms = ref(false);
+  const isLoading = ref();
+
+  const router = useRouter();
+
+  const user = ref({
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    confirmPassword: ""
+  });
+
+  const errorMessage = ref('');
+
+  const signUpFunctionality = async () => {
+    isLoading.value = true;
+    try {
+      if (user.value.email === "") {
+        throw new Error('The email field is required.');
+      }
+
+      errorMessage.value = '';
+      
+      const { data } = await axios.get(`http://localhost:3000/user`);
+
+      const checkEmail = data.find(userEmail => userEmail.email === user.value.email);
+
+      if (checkEmail) {
+        throw new Error('Already exist an user with the email.');
+      }
+
+      if (user.value.password !== user.value.confirmPassword) {
+        throw new Error('The password and confirm password do not match.');
+      }
+
+      if (terms.value === false) {
+        throw new Error('Accept the terms and services.');
+      }
+
+      const newUser = {
+        firstName: user.value.firstName,
+        lastName: user.value.lastName,
+        email: user.value.email,
+        password: user.value.password,
+      }
+
+      await axios.post('http://localhost:3000/user', newUser);
+
+      user.value.firstName = "";
+      user.value.lastName = "";
+      user.value.email = "";
+      user.value.password = "";
+      user.value.confirmPassword = "";
+
+      notify();
+      router.push('/');
+    } catch (error) {
+      errorMessage.value = error.message || 'An error occurred.';
+    } finally {
+      isLoading.value = false;
+      terms.value = false;
+    }
+  }
 </script>
 
 <template>
-    <div>
+  <div>
     <v-card
       class="mx-auto pa-10 pt-0 pb-4 my-10"
       elevation="8"
@@ -16,78 +90,88 @@
       <v-container class="d-flex d-flex justify-center align-center flex-column">
         <img src="../assets/logo/logo.png" alt="logo" width="150">
       </v-container>
-      <v-card-title class="text-left text-h5 greet text-secondary ml-n1 mt-n7">
-        Adventure starts here 🚀
-        <v-icon size="64px" color="green-darken-1" icon="fas fa-wave"></v-icon> 
+      <v-card-title class="text-left text-h5 greet text-secondary ml-n1 mt-n7 mb-2">
+        Sign up to get started 🚀
       </v-card-title>
-
+      
       <v-card-text>
-      <v-form>
-        
-        <v-text-field 
-          label="First Name"
-          type="text" 
-          required  
-          density="compact"
-          placeholder="John"
-          variant="outlined"
-        ></v-text-field>
-
-        <v-text-field
-          label="Last Name"
-          density="compact"
-          placeholder="Doe"
-          variant="outlined"
-          type="text"
-        ></v-text-field>
-
-        <v-text-field
-          label="Email address"
-          density="compact"
-          placeholder="JohnDoe@email.com"
-          variant="outlined"
-          type="email"
-        ></v-text-field>
-
-        <v-text-field
-          label="Password"
-          :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
-          :type="visible ? 'text' : 'password'"
-          density="compact"
-          placeholder="Enter your password"
-          variant="outlined"
-          @click:append-inner="visible = !visible"
-        ></v-text-field>
-
-        <v-text-field
-          label="Confirm password"
-          :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
-          :type="visible ? 'text' : 'password'"
-          density="compact"
-          placeholder="Confirm your password"
-          variant="outlined"
-          @click:append-inner="visible = !visible"
-        ></v-text-field>
-        
-        <div class="d-flex justify-space-between align-center mb-3">
+        <v-alert
+          v-if="errorMessage"
+          type="warning"
+          class="mb-8"
+          color="grey-lighten-2"
+          border="start"
+        >
+          {{ errorMessage }}
+        </v-alert>
+        <v-form :submit.prevent="signUpFunctionality">
+          <v-text-field
+            v-model="user.firstName" 
+            label="First Name"
+            type="text" 
+            required  
+            density="compact"
+            placeholder="John"
+            variant="outlined"
+          ></v-text-field>
+          <v-text-field
+            v-model="user.lastName"
+            label="Last Name"
+            density="compact"
+            placeholder="Doe"
+            variant="outlined"
+            type="text"
+          ></v-text-field>
+          <v-text-field
+            v-model="user.email"
+            label="Email address"
+            density="compact"
+            placeholder="JohnDoe@email.com"
+            variant="outlined"
+            type="email"
+          ></v-text-field>
+          <v-text-field
+            v-model="user.password"
+            label="Password"
+            :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
+            :type="visible ? 'text' : 'password'"
+            density="compact"
+            placeholder="Enter your password"
+            variant="outlined"
+            @click:append-inner="visible = !visible"
+          ></v-text-field>
+          <v-text-field
+            class="mt-2"
+            v-model="user.confirmPassword"
+            label="Confirm password"
+            :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
+            :type="visible ? 'text' : 'password'"
+            density="compact"
+            placeholder="Confirm your password"
+            variant="outlined"
+            @click:append-inner="visible = !visible"
+          ></v-text-field>
+          <div class="d-flex justify-space-between align-center mb-3">
             <v-checkbox
               v-model="terms"
               label="I agree to privacy policy & terms"
               color="primary"
               hide-details
             ></v-checkbox>
-        </div>
-        <v-btn
-          class="mb-4"
-          color="primary"
-          size="large"
-          block
-          type="submit"
-        >
-          Sign Up
-        </v-btn>
-      </v-form>
-    </v-card-text>
+          </div>
+          <v-btn
+            :loading="isLoading"
+            :disabled="isLoading"
+            class="mb-4"
+            color="primary"
+            size="large"
+            block
+            type="submit"
+          >
+            Sign Up
+          </v-btn>
+        </v-form>
+      </v-card-text>
       <v-card-actions class="justify-center mt-2">
       <span>
         Already have an account?
@@ -97,7 +181,3 @@
     </v-card>
   </div>
 </template>
-
-<style scoped>
-  
-</style>
