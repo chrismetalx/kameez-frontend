@@ -4,8 +4,6 @@
   import axios from 'axios';
   import { useRouter } from 'vue-router';
 
-  console.log(`Env api url ${import.meta.env.VITE_APP_API_URL}`)
-
   //toast
   const notify = () => {
     toast.success(' User created successfully', {
