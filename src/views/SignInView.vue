@@ -17,7 +17,7 @@
         <img src="../assets/logo/logo.png" alt="logo" width="150">
       </v-container>
       <v-card-title class="text-left text-h5 greet text-secondary mt-n7 mb-5">
-        Welcome to Kameez! 👋 TEST DEPLOY
+        Welcome to Kameez! 👋
       </v-card-title>
       <v-card-text>
         <v-form>
