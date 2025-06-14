@@ -31,26 +31,40 @@
   const signUpFunctionality = async () => {
     isLoading.value = true;
     try {
+      if (user.value.firstName === "") {
+        throw new Error('The first name field is required.');
+      }
+
+      if (user.value.lastName === "") {
+        throw new Error('The last name field is required.');
+      }
+
       if (user.value.email === "") {
         throw new Error('The email field is required.');
       }
 
+      if (user.value.password === "") {
+        throw new Error('The email field is required.');
+      }
+
+      if (user.value.confirmPassword === "") {
+        throw new Error('The email field is required.');
+      }
+
+      if (terms.value === false) {
+        throw new Error('Accept the terms and services.');
+      }
+
       errorMessage.value = '';
-      
-      const { data } = await axios.get(`${import.meta.env.VITE_APP_API_URL}/user`);
 
-      const checkEmail = data.find(userEmail => userEmail.email === user.value.email);
+      const { data } = await axios.get(`${import.meta.env.VITE_APP_API_URL}/user?email=${user.value.email}`);
 
-      if (checkEmail) {
+      if (data.length === 1) {
         throw new Error('Already exist an user with the email.');
       }
 
       if (user.value.password !== user.value.confirmPassword) {
         throw new Error('The password and confirm password do not match.');
-      }
-
-      if (terms.value === false) {
-        throw new Error('Accept the terms and services.');
       }
 
       const newUser = {
