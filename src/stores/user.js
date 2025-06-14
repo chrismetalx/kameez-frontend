@@ -1,8 +1,12 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
-import axios from 'axios'
 
 export const useUserStore = defineStore('user', () => {
- 
-  return {  }
+
+  const user = ref({});
+
+  const saveUser = (userData) => {
+    user.value = userData
+  }
+  return { saveUser, user }
 })

@@ -1,8 +1,48 @@
 <script setup>
-  import { ref } from 'vue'
-  import { toast } from 'vue3-toastify';
-  const visible = ref(false)
-  const rememberMe = ref(false)
+  import { ref } from 'vue';
+  import axios from 'axios';
+  import { useUserStore } from '@/stores/user';
+  import { useRouter } from 'vue-router';
+
+  const visible = ref(false);
+  const rememberMe = ref(false);
+  const isLoading = ref();
+  //Router
+  const router = useRouter();
+  //Pinia
+  const useUser = useUserStore();
+
+  const { saveUser } = useUser;
+
+  const user = ref({
+    email: '',
+    password: ''
+  });
+
+  const errorMessage = ref('');
+
+  const signInFunctionality = async () => {
+    isLoading.value = true;
+    try {
+      errorMessage.value = '';
+
+      const { data } = await axios.get(`${import.meta.env.VITE_APP_API_URL}/user?email=${user.value.email}&password=${user.value.password}`);
+
+      if (data.length === 0) {
+        throw new Error('Email or password incorrectly.');
+      };
+
+      const userData = data[0];
+
+      saveUser(userData);
+
+      router.push('/dashboard');
+    } catch (error) {
+      errorMessage.value = error.message || 'An error occurred.';
+    } finally {
+      isLoading.value = false;
+    }
+  };
 </script>
 
 <template>
@@ -20,8 +60,18 @@
         Welcome to Kameez! 👋
       </v-card-title>
       <v-card-text>
-        <v-form>
+        <v-alert
+          v-if="errorMessage"
+          type="warning"
+          class="mb-8"
+          color="grey-lighten-2"
+          border="start"
+        >
+          {{ errorMessage }}
+        </v-alert>
+        <v-form :submit.prevent="signInFunctionality">
           <v-text-field
+            v-model="user.email"
             density="compact"
             type="email"
             label="Email address"
@@ -29,6 +79,7 @@
             variant="outlined"
           ></v-text-field>
           <v-text-field
+            v-model="user.password"
             :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
             :type="visible ? 'text' : 'password'"
             density="compact"
@@ -47,6 +98,8 @@
             <a href="#" class="text-decoration-none text-primary">Forgot Password?</a>
           </div>
           <v-btn
+            :loading="isLoading"
+            :disabled="isLoading"
             class="mb-4"
             color="primary"
             size="large"
