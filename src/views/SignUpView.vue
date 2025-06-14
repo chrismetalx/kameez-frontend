@@ -44,11 +44,11 @@
       }
 
       if (user.value.password === "") {
-        throw new Error('The email field is required.');
+        throw new Error('The password field is required.');
       }
 
       if (user.value.confirmPassword === "") {
-        throw new Error('The email field is required.');
+        throw new Error('The confirm password field is required.');
       }
 
       if (terms.value === false) {
