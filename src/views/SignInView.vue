@@ -87,7 +87,7 @@
             placeholder="Enter your password"
             variant="outlined"
             @click:append-inner="visible = !visible"
-          ></v-text-field>       
+          ></v-text-field>
           <div class="d-flex justify-space-between align-center mb-3">
             <v-checkbox
               v-model="rememberMe"
@@ -109,10 +109,10 @@
             Login
           </v-btn>
         </v-form>
-      </v-card-text>  
+      </v-card-text>
       <v-card-actions class="justify-center mt-2">
       <span>
-        New on our platform? 
+        New on our platform?
         <router-link to="/sign-up" class="ml-5 text-primary text-decoration-none">Create an account</router-link>
       </span>
     </v-card-actions>
