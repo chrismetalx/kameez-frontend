@@ -95,7 +95,7 @@
               color="primary"
               hide-details
             ></v-checkbox>
-            <a href="#" class="text-decoration-none text-primary">Forgot Password?</a>
+            <router-link to="/reset-password" class="text-decoration-none text-primary">Forgot Password?</router-link>
           </div>
           <v-btn
             :loading="isLoading"
