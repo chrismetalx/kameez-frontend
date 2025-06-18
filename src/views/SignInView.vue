@@ -88,13 +88,7 @@
             variant="outlined"
             @click:append-inner="visible = !visible"
           ></v-text-field>
-          <div class="d-flex justify-space-between align-center mb-3">
-            <v-checkbox
-              v-model="rememberMe"
-              label="Remember me"
-              color="primary"
-              hide-details
-            ></v-checkbox>
+          <div class="d-flex justify-end mb-3">
             <router-link to="/reset-password" class="text-decoration-none text-primary">Forgot Password?</router-link>
           </div>
           <v-btn
