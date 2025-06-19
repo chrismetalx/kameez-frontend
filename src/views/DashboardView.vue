@@ -25,7 +25,7 @@
       :items="products"
     >
       <template v-slot:top>
-        <v-toolbar flat color="secondary" rounded>
+        <v-toolbar flat color="primary" rounded>
           <v-toolbar-title>
             <p class="text-white">
               <v-icon color="white" icon="mdi-book-multiple" size="x-small" start/>
@@ -35,7 +35,7 @@
           <v-btn
             class="me-2"
             prepend-icon="mdi-plus"
-            color="primary"
+            color="secondary"
             variant="flat"
             border
           >Add a Product</v-btn>

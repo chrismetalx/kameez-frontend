@@ -23,7 +23,7 @@
         </div>
         <v-spacer></v-spacer>
         <span class="text-h6 mr-5">{{ user.firstName}} {{ user.lastName }}</span>
-        <v-btn text @click="logout">
+        <v-btn text @click="logout" color="secondary" variant="flat">
           <v-icon left>mdi-logout</v-icon>
           Log Out
         </v-btn>
