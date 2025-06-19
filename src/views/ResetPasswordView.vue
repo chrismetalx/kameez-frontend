@@ -63,7 +63,7 @@
       max-width="448"
       rounded="lg"
     >
-      <v-card-title class="text-center text-h5 greet text-secondary mt-n7 mb-1">
+      <v-card-title class="text-center text-h5 greet text-primary mt-n7 mb-1">
        Change your password
       </v-card-title>
       <v-card-text class="text-medium-emphasis text-caption text-center">

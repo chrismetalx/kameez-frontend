@@ -56,7 +56,7 @@
       <v-container class="d-flex d-flex justify-center align-center flex-column">
         <img src="../assets/logo/logo.png" alt="logo" width="150">
       </v-container>
-      <v-card-title class="text-left text-h5 greet text-secondary mt-n7 mb-5">
+      <v-card-title class="text-left text-h5 greet text-primary mt-n7 mb-5">
         Welcome to Kameez! 👋
       </v-card-title>
       <v-card-text>
@@ -113,7 +113,7 @@
       <v-card-actions class="justify-center mt-2">
       <span>
         New on our platform?
-        <router-link to="/sign-up" class="ml-5 text-secondary text-decoration-none">Create an account</router-link>
+        <router-link to="/sign-up" class="ml-5 text-white bg-secondary rounded px-2 py-1 text-decoration-none">Create an account</router-link>
       </span>
     </v-card-actions>
     </v-card>
