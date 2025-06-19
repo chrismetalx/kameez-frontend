@@ -25,21 +25,18 @@
       :items="products"
     >
       <template v-slot:top>
-        <v-toolbar flat color="primary" rounded>
+        <v-toolbar flat color="secondary" rounded>
           <v-toolbar-title>
             <v-icon color="white" icon="mdi-book-multiple" size="x-small" start/>
-
             Products
           </v-toolbar-title>
           <v-btn
             class="me-2"
             prepend-icon="mdi-plus"
-            rounded="lg"
-            text="Add a Product"
-            color="#fff"
+            color="primary"
             variant="flat"
             border
-          />
+          >Add a Product</v-btn>
         </v-toolbar>
       </template>
       <template v-slot:item.actions>
@@ -48,7 +45,6 @@
           <v-btn color="error" icon="mdi-delete" size="small"/>
         </div>
       </template>
-
       <template v-slot:no-data>
         <v-btn
           prepend-icon="mdi-backup-restore"

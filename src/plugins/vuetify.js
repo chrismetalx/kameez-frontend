@@ -23,7 +23,7 @@ export default createVuetify({
         dark: false,
         colors: {
           primary: '#3F51B5',  // Azul indigo
-          secondary: '#483C32', // taupe 
+          secondary: '#4CAF50', // Verde esmeralda
         }
       }
     }
