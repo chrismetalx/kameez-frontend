@@ -27,8 +27,8 @@
       <template v-slot:top>
         <v-toolbar flat color="secondary" rounded>
           <v-toolbar-title>
-            <p class="text-primary">
-              <v-icon color="primary" icon="mdi-book-multiple" size="x-small" start/>
+            <p class="text-white">
+              <v-icon color="white" icon="mdi-book-multiple" size="x-small" start/>
               Products
             </p>
           </v-toolbar-title>
