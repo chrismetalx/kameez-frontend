@@ -19,59 +19,7 @@
 </script>
 
 <template>
-  <v-container class="fill-height d-flex align-center justify-center">
-        <v-card class="pa-6" style="width: 100%; max-width: 450px;">
-          <v-card-title class="text-h4 text-center mb-6" style="color: #3F51B5;">Iniciar Sesión</v-card-title>
-
-          <v-card-text>
-            <v-form>
-              <v-text-field
-                v-model="email"
-                label="Correo Electrónico"
-                prepend-inner-icon="mdi-email"
-                outlined
-                dense
-                class="mb-4"
-              ></v-text-field>
-
-              <v-text-field
-                v-model="password"
-                label="Contraseña"
-                prepend-inner-icon="mdi-lock"
-                :append-inner-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-                :type="showPassword ? 'text' : 'password'"
-                outlined
-                dense
-                class="mb-6"
-              ></v-text-field>
-
-              <v-btn
-                type="submit"
-                color="#3F51B5"
-                block
-                large
-                class="mb-4"
-                :loading="loading"
-              >
-                Iniciar Sesión
-              </v-btn>
-
-              <v-row justify="center">
-                <v-col cols="auto">
-                  <v-btn
-                    variant="flat"
-                    color="#ee6c4d"
-                    size="small"
-                  >
-                    ¿Olvidaste tu contraseña?
-                  </v-btn>
-                </v-col>
-              </v-row>
-            </v-form>
-          </v-card-text>
-        </v-card>
-      </v-container>
-   <v-sheet border rounded max-width="90%" class="mx-auto mt-10">
+   <v-sheet border rounded max-width="90%" class="mx-auto mt-10 my-table">
     <v-data-table
       :headers="headers"
       :items="products"
@@ -79,8 +27,10 @@
       <template v-slot:top>
         <v-toolbar flat color="secondary" rounded>
           <v-toolbar-title>
-            <v-icon color="white" icon="mdi-book-multiple" size="x-small" start/>
-            Products
+            <p class="text-primary">
+              <v-icon color="primary" icon="mdi-book-multiple" size="x-small" start/>
+              Products
+            </p>
           </v-toolbar-title>
           <v-btn
             class="me-2"

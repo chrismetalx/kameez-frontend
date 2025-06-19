@@ -95,7 +95,7 @@
               color="primary"
               hide-details
             ></v-checkbox>
-            <router-link to="/reset-password" class="text-decoration-none text-primary">Forgot Password?</router-link>
+            <router-link to="/reset-password" class="text-decoration-none text-secondary">Forgot Password?</router-link>
           </div>
           <v-btn
             :loading="isLoading"
@@ -113,7 +113,7 @@
       <v-card-actions class="justify-center mt-2">
       <span>
         New on our platform?
-        <router-link to="/sign-up" class="ml-5 text-primary text-decoration-none">Create an account</router-link>
+        <router-link to="/sign-up" class="ml-5 text-secondary text-decoration-none">Create an account</router-link>
       </span>
     </v-card-actions>
     </v-card>

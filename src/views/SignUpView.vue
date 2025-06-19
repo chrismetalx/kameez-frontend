@@ -107,7 +107,6 @@
       <v-card-title class="text-left text-h5 greet text-secondary ml-n1 mt-n7 mb-2">
         Sign up to get started 🚀
       </v-card-title>
-      
       <v-card-text>
         <v-alert
           v-if="errorMessage"
@@ -120,10 +119,10 @@
         </v-alert>
         <v-form :submit.prevent="signUpFunctionality">
           <v-text-field
-            v-model="user.firstName" 
+            v-model="user.firstName"
             label="First Name"
-            type="text" 
-            required  
+            type="text"
+            required
             density="compact"
             placeholder="John"
             variant="outlined"
@@ -189,7 +188,7 @@
       <v-card-actions class="justify-center mt-2">
       <span>
         Already have an account?
-        <router-link to="/" class="ml-5 text-primary text-decoration-none">Sign in instead</router-link>
+        <router-link to="/" class="ml-5 text-secondary text-decoration-none">Sign in instead</router-link>
       </span>
     </v-card-actions>
     </v-card>
