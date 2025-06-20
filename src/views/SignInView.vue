@@ -1,11 +1,23 @@
 <script setup>
-  import { ref } from 'vue';
+  import { ref, onMounted } from 'vue';
   import axios from 'axios';
   import { useUserStore } from '@/stores/user';
   import { useRouter } from 'vue-router';
+  import { useToast } from 'vue-toastification';
+
+  const toast = useToast();
+
+  onMounted(() => {
+    const storedToast = localStorage.getItem('redirectToast');
+
+    if (storedToast) {
+      const toastData = JSON.parse(storedToast);
+      toast.success(toastData.message, { timeout: toastData.timeout });
+      localStorage.removeItem('redirectToast');
+    }
+  });
 
   const visible = ref(false);
-  const rememberMe = ref(false);
   const isLoading = ref();
   //Router
   const router = useRouter();
