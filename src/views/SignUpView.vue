@@ -104,7 +104,7 @@
       <v-container class="d-flex d-flex justify-center align-center flex-column">
         <img src="../assets/logo/logo.png" alt="logo" width="150">
       </v-container>
-      <v-card-title class="text-left text-h5 greet text-primary ml-n1 mt-n7 mb-2">
+      <v-card-title class="text-left text-h5 greet text-secondary ml-n1 mt-n7 mb-2">
         Sign up to get started 🚀
       </v-card-title>
       <v-card-text>
@@ -188,7 +188,7 @@
       <v-card-actions class="justify-center mt-2">
       <span>
         Already have an account?
-        <router-link to="/" class="ml-5 bg-secondary rounded px-2 py-1 text-white text-decoration-none">Sign in instead</router-link>
+        <router-link to="/" class="ml-5 text-secondary text-decoration-none">Sign in instead</router-link>
       </span>
     </v-card-actions>
     </v-card>
