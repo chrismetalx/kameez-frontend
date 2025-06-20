@@ -101,7 +101,7 @@
             @click:append-inner="visible = !visible"
           ></v-text-field>
           <div class="d-flex justify-end mb-3">
-            <router-link to="/reset-password" class="text-decoration-none text-primary">Forgot Password?</router-link>
+            <router-link to="/reset-password" class="text-decoration-none text-secondary">Forgot Password?</router-link>
           </div>
           <v-btn
             :loading="isLoading"
@@ -119,7 +119,7 @@
       <v-card-actions class="justify-center mt-2">
       <span>
         New on our platform?
-        <router-link to="/sign-up" class="ml-5 text-primary text-decoration-none">Create an account</router-link>
+        <router-link to="/sign-up" class="ml-5 text-secondary text-decoration-none">Create an account</router-link>
       </span>
     </v-card-actions>
     </v-card>

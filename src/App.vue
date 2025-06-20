@@ -10,3 +10,9 @@
   <Navbar v-if="!$route.meta.hideNavbar"/>
   <RouterView />
 </template>
+
+<style>
+  body {
+    background-color: #D3D3D3;
+  }
+</style>

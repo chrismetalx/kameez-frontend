@@ -119,7 +119,7 @@
           >
             Change Password
           </v-btn>
-          <v-btn color="success" @click="goToLogin" block size="large">
+          <v-btn color="secondary" @click="goToLogin" block size="large">
             Go to Sign in
           </v-btn>
         </v-form>
@@ -131,7 +131,7 @@
       rounded="lg"
     >
       <v-icon color="success" size="64">mdi-check-circle</v-icon>
-      <v-card-title class="text-h6 justify-center mt-4">Password Changed Successfully!</v-card-title>
+      <v-card-title class="text-h6 justify-center mt-4 text-secondary">Password Changed Successfully!</v-card-title>
       <v-card-text>Your password has been successfully updated.</v-card-text>
       <v-btn color="primary" @click="goToLogin" block large class="mt-4">
         Go to Sign in
