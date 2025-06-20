@@ -111,13 +111,16 @@
           <v-btn
             :loading="isLoading"
             :disabled="isLoading"
-            class="mb-4"
+            class="mb-8"
             color="primary"
             size="large"
             block
             type="submit"
           >
             Change Password
+          </v-btn>
+          <v-btn color="success" @click="goToLogin" block size="large">
+            Go to Sign in
           </v-btn>
         </v-form>
       </v-card-text>
