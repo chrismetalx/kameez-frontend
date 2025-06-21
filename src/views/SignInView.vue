@@ -1,21 +1,8 @@
 <script setup>
-  import { ref, onMounted } from 'vue';
+  import { ref } from 'vue';
   import axios from 'axios';
   import { useUserStore } from '@/stores/user';
   import { useRouter } from 'vue-router';
-  import { useToast } from 'vue-toastification';
-
-  const toast = useToast();
-
-  onMounted(() => {
-    const storedToast = localStorage.getItem('redirectToast');
-
-    if (storedToast) {
-      const toastData = JSON.parse(storedToast);
-      toast.success(toastData.message, { timeout: toastData.timeout });
-      localStorage.removeItem('redirectToast');
-    }
-  });
 
   const visible = ref(false);
   const isLoading = ref();
@@ -68,9 +55,12 @@
       <v-container class="d-flex d-flex justify-center align-center flex-column">
         <img src="../assets/logo/logo.png" alt="logo" width="150">
       </v-container>
-      <v-card-title class="text-left text-h5 greet text-secondary mt-n7 mb-5">
+      <v-card-title class="text-center text-h5 greet text-secondary mt-n7 mb-0">
         Welcome to Kameez! 👋
       </v-card-title>
+      <v-card-text class="text-medium-emphasis text-caption text-center">
+        Elegance in every stitch.
+      </v-card-text>
       <v-card-text>
         <v-alert
           v-if="errorMessage"

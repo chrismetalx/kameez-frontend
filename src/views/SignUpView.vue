@@ -2,7 +2,9 @@
   import { ref } from 'vue'
   import axios from 'axios';
   import { useRouter } from 'vue-router';
+  import { useToast } from '../composables/useToast';
 
+  const { showToast } = useToast();
   const visible = ref(false);
   const terms = ref(false);
   const isLoading = ref();
@@ -16,12 +18,6 @@
     password: "",
     confirmPassword: ""
   });
-
-  const toastData = {
-    message: '¡User created successfully!',
-    type: 'success',
-    timeout: 3000
-  };
 
   const errorMessage = ref('');
 
@@ -79,7 +75,7 @@
       user.value.password = "";
       user.value.confirmPassword = "";
 
-      localStorage.setItem('redirectToast', JSON.stringify(toastData));
+      showToast('User created successfully!', 'info');
       router.push('/');
     } catch (error) {
       errorMessage.value = error.message || 'An error occurred.';

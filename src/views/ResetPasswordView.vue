@@ -125,7 +125,7 @@
         </v-form>
       </v-card-text>
     </v-card>
-    <v-card v-else class="mx-auto text-center pa-6 mt-5"
+    <v-card v-else class="mx-auto text-center pa-10 pt-13 pb-8 my-10"
       elevation="8"
       max-width="448"
       rounded="lg"
@@ -133,7 +133,7 @@
       <v-icon color="success" size="64">mdi-check-circle</v-icon>
       <v-card-title class="text-h6 justify-center mt-4 text-secondary">Password Changed Successfully!</v-card-title>
       <v-card-text>Your password has been successfully updated.</v-card-text>
-      <v-btn color="primary" @click="goToLogin" block large class="mt-4">
+      <v-btn color="primary" @click="goToLogin" block size="large" class="mt-4">
         Go to Sign in
       </v-btn>
     </v-card>

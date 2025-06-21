@@ -1,14 +1,13 @@
 <script setup>
-  import { RouterLink, RouterView } from 'vue-router';
-  import { useRoute } from 'vue-router';
+  import { RouterView } from 'vue-router';
   import Navbar from './components/Navbar.vue'
-
-  const route = useRoute();
+  import ToastContainer from './components/ToastContainer.vue';
 </script>
 
 <template>
   <Navbar v-if="!$route.meta.hideNavbar"/>
   <RouterView />
+  <ToastContainer/>
 </template>
 
 <style>
