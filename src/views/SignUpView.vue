@@ -75,7 +75,7 @@
       user.value.password = "";
       user.value.confirmPassword = "";
 
-      showToast('User created successfully!', 'info');
+      showToast('User created successfully!', 'success');
       router.push('/');
     } catch (error) {
       errorMessage.value = error.message || 'An error occurred.';
