@@ -75,7 +75,7 @@
           </v-toolbar-title>
         </v-toolbar>
         <v-card-text>
-          <v-form :submit.prevent="saveProduct">
+          <v-form @submit.prevent="saveProduct">
             <v-row dense>
               <v-col cols="12">
                 <v-text-field
@@ -134,6 +134,7 @@
                 color="primary"
                 variant="flat"
                 :text="isEditing ? 'Update' : 'Add'"
+                type="submit"
               ></v-btn>
             </v-card-actions>
           </v-form>

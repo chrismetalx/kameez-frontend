@@ -8,10 +8,6 @@ import vuetify from './plugins/vuetify'
 // Vuetify
 import 'vuetify/styles'
 
-// toastify
-import Vue3Toastify from 'vue3-toastify';
-import 'vue3-toastify/dist/index.css';
-
 const app = createApp(App)
 
 // const vuetify = createVuetify({
@@ -22,7 +18,6 @@ const app = createApp(App)
 app.use(createPinia())
 app.use(router)
 app.use(vuetify)
-app.use(Vue3Toastify)
 
 app.mount('#app')
 

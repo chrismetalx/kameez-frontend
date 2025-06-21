@@ -2,6 +2,7 @@
   import { ref } from 'vue';
   import axios from 'axios';
   import ModalProducts from '@/components/ModalProducts.vue';
+import { provideDefaults } from 'vuetify/lib/composables/defaults';
 
   // const products = ref([
   //   { id: 1, name: 'Kameez t-shirt', price: 10.01, size: 'M' },
@@ -54,28 +55,25 @@
     console.log(product);
   }
 
-  getProducts();
-
   const saveValues = async(product) => {
     try {
-      console.log(product);
       if (isEditing.value) {
-        await axios.put(`http://localhost:3000/product/${product.id}`, product)
+        await axios.put(`http://localhost:3000/product/${product.id}`, product);
         getProducts();
       } else {
-        await axios.post(`http://localhost:3000/product`, product)
+        await axios.post(`http://localhost:3000/product`, product);
+        getProducts();
       }
     } catch (error) {
       console.log(error);
     }
   }
 
-  saveValues();
-
+  getProducts();
 </script>
 
 <template>
-  <v-sheet border rounded max-width="90%" class="mx-auto mt-10 my-table">
+  <v-sheet border rounded max-width="90%" class="mx-auto mt-10 my-table mb-10">
     <v-data-table
       :headers="headers"
       :items="products"
