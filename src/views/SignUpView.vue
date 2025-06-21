@@ -1,17 +1,10 @@
 <script setup>
   import { ref } from 'vue'
-  import { toast } from 'vue3-toastify';
   import axios from 'axios';
   import { useRouter } from 'vue-router';
+  import { useToast } from '../composables/useToast';
 
-  //toast
-  const notify = () => {
-    toast.success(' User created successfully', {
-      autoClose: 3000,
-      position: toast.POSITION.BOTTOM_RIGHT,
-    });
-  };
-
+  const { showToast } = useToast();
   const visible = ref(false);
   const terms = ref(false);
   const isLoading = ref();
@@ -82,7 +75,7 @@
       user.value.password = "";
       user.value.confirmPassword = "";
 
-      notify();
+      showToast('User created successfully!', 'success');
       router.push('/');
     } catch (error) {
       errorMessage.value = error.message || 'An error occurred.';

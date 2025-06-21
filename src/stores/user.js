@@ -9,4 +9,6 @@ export const useUserStore = defineStore('user', () => {
     user.value = userData
   }
   return { saveUser, user }
+}, {
+  persist: true,
 })
