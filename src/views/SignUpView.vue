@@ -2,7 +2,9 @@
   import { ref } from 'vue'
   import axios from 'axios';
   import { useRouter } from 'vue-router';
+  import { useToast } from '../composables/useToast';
 
+  const { showToast } = useToast();
   const visible = ref(false);
   const terms = ref(false);
   const isLoading = ref();
@@ -73,6 +75,7 @@
       user.value.password = "";
       user.value.confirmPassword = "";
 
+      showToast('User created successfully!', 'success');
       router.push('/');
     } catch (error) {
       errorMessage.value = error.message || 'An error occurred.';

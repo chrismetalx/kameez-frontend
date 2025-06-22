@@ -2,15 +2,7 @@
   import { ref } from 'vue';
   import axios from 'axios';
   import ModalProducts from '@/components/ModalProducts.vue';
-import { provideDefaults } from 'vuetify/lib/composables/defaults';
 
-  // const products = ref([
-  //   { id: 1, name: 'Kameez t-shirt', price: 10.01, size: 'M' },
-  //   { id: 2, name: 'Kameez original', price: 5.00, size: 'L' },
-  //   { id: 3, name: 'T-shirt edition A', price: 21.99, size: 'S' },
-  //   { id: 4, name: 'T-shirt short sleeve', price: 31, size: 'XL' },
-  //   { id: 5, name: 'T-shirt long sleeve', price: 17.25, size: 'SM' },
-  // ]);
   const products = ref([]);
   const showModal = ref(false)
   const isEditing = ref(false);
@@ -52,21 +44,6 @@ import { provideDefaults } from 'vuetify/lib/composables/defaults';
     defaultProduct.value = {...product}
     isEditing.value = true
     showModal.value = true
-    console.log(product);
-  }
-
-  const saveValues = async(product) => {
-    try {
-      if (isEditing.value) {
-        await axios.put(`http://localhost:3000/product/${product.id}`, product);
-        getProducts();
-      } else {
-        await axios.post(`http://localhost:3000/product`, product);
-        getProducts();
-      }
-    } catch (error) {
-      console.log(error);
-    }
   }
 
   getProducts();
@@ -117,7 +94,6 @@ import { provideDefaults } from 'vuetify/lib/composables/defaults';
     v-model="showModal"
     :productData="defaultProduct"
     :isEditing="isEditing"
-    @save="saveValues"
     v-if="showModal"
   />
 </template>
