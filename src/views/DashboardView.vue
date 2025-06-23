@@ -1,13 +1,12 @@
 <script setup>
   import { ref } from 'vue';
   import axios from 'axios';
-  import ModalProducts from '@/components/ModalProducts.vue';
+  import ProductForm from '@/components/ProductForm.vue';
 
   const products = ref([]);
-  const showModal = ref(false)
-  const isEditing = ref(false);
+  const showModal = ref(false);
 
-  const defaultProduct = ref({
+  const product = ref({
     id: null,
     name: '',
     price: 0,
@@ -29,20 +28,18 @@
   }
 
   const openAddDialog = () => {
-    defaultProduct.value = {
+    product.value = {
       id: null,
       name: '',
       price: 0,
       size: '',
       image: ''
     }
-    isEditing.value = false
     showModal.value = true
   }
 
-  const openEditDialog = (product) => {
-    defaultProduct.value = {...product}
-    isEditing.value = true
+  const openEditDialog = (item) => {
+    product.value = {...item}
     showModal.value = true
   }
 
@@ -90,10 +87,9 @@
       </template>
     </v-data-table>
   </v-sheet>
-  <ModalProducts
+  <ProductForm
     v-model="showModal"
-    :productData="defaultProduct"
-    :isEditing="isEditing"
+    :product="product"
     v-if="showModal"
   />
 </template>

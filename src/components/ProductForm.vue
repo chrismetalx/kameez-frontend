@@ -2,23 +2,14 @@
   import { ref, computed, defineProps, defineEmits } from 'vue';
 
   const props = defineProps({
-    isEditing: Boolean,
     modelValue: Boolean,
-    productData: {
+    product: {
       type: Object,
-      default: () => ({
-        id: null,
-        name: '',
-        price: 0,
-        size: '',
-        image: ''
-      })
     }
   });
 
   const form = ref(null);
   const saving = ref(false);
-  const product = ref({...props.productData});
   const imageFile = ref(null);
 
   // Reglas de validación
@@ -80,27 +71,34 @@
   <div class="pa-4 text-center">
     <v-dialog
       v-model="dialog"
-      max-width="600"
+      max-width="500"
+      rounded="lg"
       persistent
       class="pt-5"
       @click:outside="closeDialog"
     >
       <v-card>
-        <v-toolbar class="mb-5" color="primary">
+        <v-toolbar class="mb-5 px-0" color="primary">
           <v-toolbar-title>
             <p class="text-white">
-              <v-icon color="white" :icon="isEditing? 'mdi-package-variant' : 'mdi-book-multiple'" size="small"></v-icon>
-              {{ isEditing? 'Update' : 'Add Product' }}
+              <v-icon color="white" :icon="product.id? 'mdi-package-variant' : 'mdi-book-multiple'" size="small"></v-icon>
+              {{ product.id? 'Update' : 'Add Product' }}
             </p>
           </v-toolbar-title>
         </v-toolbar>
-        <v-card-text>
+        <v-card-text class="pa-15 pt-0 pb-4">
+          <v-card-text class="py-0 mb-5 px-0">
+            <small class="text-caption text-error">* Indicates required field.</small>
+          </v-card-text>
           <v-form ref="form" @submit.prevent="saveProduct">
             <v-row dense>
               <v-col cols="12">
                 <v-text-field
                   v-model="product.name"
                   label="Name*"
+                  density="compact"
+                  placeholder="T-shirt"
+                  variant="outlined"
                   :rules="nameRules"
                   required
                 ></v-text-field>
@@ -112,6 +110,9 @@
                   label="Price*"
                   type="number"
                   prefix="$"
+                  density="compact"
+                  placeholder="10"
+                  variant="outlined"
                   :rules="priceRules"
                   required
                 ></v-text-field>
@@ -121,6 +122,9 @@
                 <v-text-field
                   v-model="product.size"
                   label="Size*"
+                  density="compact"
+                  placeholder="M"
+                  variant="outlined"
                   :rules="sizeRules"
                   :items="['S', 'M', 'L', 'XL']"
                   required
@@ -132,6 +136,8 @@
                   v-model="imageFile"
                   :rules="imageRules"
                   label="Product Image"
+                  density="compact"
+                  variant="outlined"
                   accept="image/*"
                   prepend-icon="mdi-camera"
                   required
@@ -146,7 +152,6 @@
               ></v-img>
               </v-col>
             </v-row>
-            <small class="text-caption text-medium-emphasis">*indicates required field</small>
             <v-divider></v-divider>
             <v-card-actions>
               <v-spacer></v-spacer>
@@ -154,13 +159,15 @@
                 text="Cancel"
                 variant="flat"
                 color="secondary"
+                size="large"
                 @click="closeDialog"
               ></v-btn>
               <v-btn
                 color="primary"
                 variant="flat"
-                :text="isEditing ? 'Update' : 'Add'"
+                :text="product.id ? 'Update' : 'Add'"
                 type="submit"
+                size="large"
                 :loading="saving"
                 :disabled="saving"
               ></v-btn>
