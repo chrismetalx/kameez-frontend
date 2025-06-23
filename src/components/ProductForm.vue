@@ -40,16 +40,16 @@
   });
 
   const handleImageUpload = (event) => {
-  const file = event.target.files[0];
-  if (file) {
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      product.value.image = e.target.result;
-    };
-    reader.readAsDataURL(file);
-  } else {
-    product.value.image = '';
-  }
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        product.value.image = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    } else {
+      product.value.image = '';
+    }
   };
 
   const closeDialog = () => {
@@ -139,7 +139,9 @@
                   density="compact"
                   variant="outlined"
                   accept="image/*"
-                  prepend-icon="mdi-camera"
+                  append-inner-icon="mdi-camera"
+                  prepend-icon=""
+                  class="cursor-pointer-input"
                   required
                   @change="handleImageUpload"
                 ></v-file-input>
@@ -178,3 +180,9 @@
     </v-dialog>
   </div>
 </template>
+
+<style scoped>
+  .cursor-pointer-input {
+    cursor: pointer;
+  }
+</style>
