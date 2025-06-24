@@ -140,7 +140,7 @@
               </v-col>
               <v-col cols="12">
                 <v-file-input
-                  v-model="imageFile"
+                  :v-model="product.id ? imageFile : ''"
                   :rules="product.id ? '': imageRules"
                   label="Product Image"
                   density="compact"
