@@ -3,13 +3,14 @@
 
   const props = defineProps({
     modelValue: Boolean,
+    loading: Boolean,
+    alertMessage: Boolean,
     product: {
       type: Object,
     }
   });
 
   const form = ref(null);
-  const saving = ref(false);
   const imageFile = ref(null);
 
   // Reglas de validación
@@ -44,11 +45,11 @@
     if (file) {
       const reader = new FileReader();
       reader.onload = (e) => {
-        product.value.image = e.target.result;
+        props.product.image = e.target.result;
       };
       reader.readAsDataURL(file);
     } else {
-      product.value.image = '';
+      props.product.image = '';
     }
   };
 
@@ -60,9 +61,7 @@
   const saveProduct = async() => {
     const { valid } = await form.value.validate();
     if (valid) {
-      saving.value = true;
-      emit('save', product.value);
-      closeDialog();
+      emit('save', props.product);
     }
   };
 </script>
@@ -89,7 +88,18 @@
         <v-card-text class="pa-15 pt-0 pb-4">
           <v-card-text class="py-0 mb-5 px-0">
             <small class="text-caption text-error">* Indicates required field.</small>
+            <br>
+            <small class="text-caption text-error">* Name field should be unique.</small>
           </v-card-text>
+          <v-alert
+            v-if="alertMessage"
+            type="warning"
+            class="mb-8"
+            color="grey-lighten-2"
+            border="start"
+          >
+            <p class="text-body-2">A product already exist with this name.</p>
+          </v-alert>
           <v-form ref="form" @submit.prevent="saveProduct">
             <v-row dense>
               <v-col cols="12">
@@ -103,7 +113,6 @@
                   required
                 ></v-text-field>
               </v-col>
-
               <v-col cols="12">
                 <v-text-field
                   v-model="product.price"
@@ -117,7 +126,6 @@
                   required
                 ></v-text-field>
               </v-col>
-
               <v-col cols="12">
                 <v-text-field
                   v-model="product.size"
@@ -130,11 +138,10 @@
                   required
                 ></v-text-field>
               </v-col>
-
               <v-col cols="12">
                 <v-file-input
-                  v-model="imageFile"
-                  :rules="imageRules"
+                  :v-model="product.id ? imageFile : ''"
+                  :rules="product.id ? '': imageRules"
                   label="Product Image"
                   density="compact"
                   variant="outlined"
@@ -170,8 +177,8 @@
                 :text="product.id ? 'Update' : 'Add'"
                 type="submit"
                 size="large"
-                :loading="saving"
-                :disabled="saving"
+                :loading="loading && !alertMessage"
+                :disabled="loading && !alertMessage"
               ></v-btn>
             </v-card-actions>
           </v-form>
