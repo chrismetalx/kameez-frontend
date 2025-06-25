@@ -165,7 +165,7 @@
                 <div class="d-flex justify-space-between align-center mb-3">
                   <v-checkbox
                     v-model="product.stock"
-                    :label="product.stock? 'Active' : 'Inactive'"
+                    :label="product.stock? 'In stock' : 'Out of stock'"
                     color="primary"
                     hide-details
                   ></v-checkbox>

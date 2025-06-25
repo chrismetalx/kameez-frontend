@@ -20,12 +20,12 @@
   });
 
   const headers = [
-    { title: 'Id', key: 'id', align: 'start' },
-    { title: 'In stock', key: 'stock', align: 'start' },
-    { title: 'Name', key: 'name' },
-    { title: 'Price', key: 'price' },
-    { title: 'Size', key: 'size', align: 'end' },
-    { title: 'Actions', key: 'actions', align: 'end', sortable: false },
+    { title: 'Id', key: 'id', width: '5%' },
+    { title: 'Stock', key: 'stock', width: '20%', align: 'center' },
+    { title: 'Name', key: 'name', width: '30%' },
+    { title: 'Price', key: 'price', width: '15%' },
+    { title: 'Size', key: 'size', width: '15%' },
+    { title: 'Actions', key: 'actions', width: '15%', align: 'end', sortable: false },
   ];
 
   const getProducts = async () => {
@@ -130,13 +130,15 @@
         </v-toolbar>
       </template>
       <template v-slot:item.stock="{ item }">
-        <v-chip
-          :color="item.stock ? 'green' : 'red'"
-          variant="elevated"
-          size="small"
-        >
-          {{ item.stock ? 'Active' : 'Inactive' }}
-        </v-chip>
+        <div class="d-flex justify-center">
+          <v-chip
+            :color="item.stock ? 'green' : 'red'"
+            variant="elevated"
+            size="small"
+          >
+            {{ item.stock ? 'In stock' : 'Out of stock' }}
+          </v-chip>
+        </div>
       </template>
       <template v-slot:item.actions="{ item }">
         <div class="d-flex ga-2 justify-end">
