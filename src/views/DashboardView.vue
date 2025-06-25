@@ -3,6 +3,7 @@
   import axios from 'axios';
   import ProductForm from '@/components/ProductForm.vue';
   import { useToast } from '../composables/useToast';
+  import ProductRemove from '@/components/ProductRemove.vue';
 
   const { showToast } = useToast();
   const products = ref([]);
@@ -94,6 +95,19 @@
     }
   };
 
+  const handleRemove = async(product) => {
+    saveLoading.value = true;
+    try {
+      await axios.delete(`http://localhost:3000/product/${product.id}`)
+      showToast('Product removed successfully!', 'success');
+      getProducts();
+    } catch (error) {
+      console.log(error);
+    } finally {
+      saveLoading.value = false;
+    }
+  };
+
   const handleSave = (product) => {
     if (product.id) {
       handleEdit(product);
@@ -143,7 +157,7 @@
       <template v-slot:item.actions="{ item }">
         <div class="d-flex ga-2 justify-end">
           <v-btn color="warning" icon="mdi-pencil" size="small" @click="openEditDialog(item)"/>
-          <v-btn color="error" icon="mdi-delete" size="small"/>
+          <ProductRemove :itemProduct="item" @deleteProduct="handleRemove" :loading="saveLoading"/>
         </div>
       </template>
       <template v-slot:no-data>
