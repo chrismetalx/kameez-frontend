@@ -20,11 +20,11 @@
   });
 
   const headers = [
-    { title: 'Id', key: 'id', width: '5%' },
-    { title: 'Stock', key: 'stock', width: '20%', align: 'center' },
+    { title: 'Id', key: 'id', width: '10%' },
     { title: 'Name', key: 'name', width: '30%' },
     { title: 'Price', key: 'price', width: '15%' },
-    { title: 'Size', key: 'size', width: '15%' },
+    { title: 'Size', key: 'size', width: '15%', align: 'center' },
+    { title: 'Stock', key: 'stock', width: '15%', align: 'center' },
     { title: 'Actions', key: 'actions', width: '15%', align: 'end', sortable: false },
   ];
 
