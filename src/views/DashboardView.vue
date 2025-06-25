@@ -12,6 +12,7 @@
 
   const product = ref({
     id: null,
+    stock: '',
     name: '',
     price: 0,
     size: '',
@@ -19,11 +20,12 @@
   });
 
   const headers = [
-    { title: 'Id', key: 'id', align: 'start' },
-    { title: 'Name', key: 'name' },
-    { title: 'Price', key: 'price' },
-    { title: 'Size', key: 'size', align: 'end' },
-    { title: 'Actions', key: 'actions', align: 'end', sortable: false },
+    { title: 'Id', key: 'id', width: '10%' },
+    { title: 'Name', key: 'name', width: '30%' },
+    { title: 'Price', key: 'price', width: '15%' },
+    { title: 'Size', key: 'size', width: '15%', align: 'center' },
+    { title: 'Stock', key: 'stock', width: '15%', align: 'center' },
+    { title: 'Actions', key: 'actions', width: '15%', align: 'end', sortable: false },
   ];
 
   const getProducts = async () => {
@@ -34,6 +36,7 @@
   const openAddDialog = () => {
     product.value = {
       id: null,
+      stock: '',
       name: '',
       price: 0,
       size: '',
@@ -125,6 +128,17 @@
             @click="openAddDialog"
           >Add a Product</v-btn>
         </v-toolbar>
+      </template>
+      <template v-slot:item.stock="{ item }">
+        <div class="d-flex justify-center">
+          <v-chip
+            :color="item.stock ? 'green' : 'red'"
+            variant="elevated"
+            size="small"
+          >
+            {{ item.stock ? 'In stock' : 'Out of stock' }}
+          </v-chip>
+        </div>
       </template>
       <template v-slot:item.actions="{ item }">
         <div class="d-flex ga-2 justify-end">
