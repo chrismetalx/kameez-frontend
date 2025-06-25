@@ -33,28 +33,30 @@
                 Delete Product </p>
             </v-toolbar-title>
           </v-toolbar>
-          <v-card-title class="text-h6 text-center">
+          <v-card-title class="text-h6 text-center px-11">
             Are you sure you want to delete the product?
           </v-card-title>
-          <v-card-text class="text-medium-emphasis text-caption text-center">
-            This action will remove your product from the product table.
-          </v-card-text>
-          <v-card-actions class="mt-5">
-            <v-spacer></v-spacer>
-            <v-btn
-              text="Cancel" variant="flat"
-              color="secondary"
-              size="large"
-              @click="isActive.value = false"
-            ></v-btn>
-            <v-btn
-              :loading="loading"
-              :disabled="loading"
-              color="primary" text="Delete" variant="flat"
-              size="large"
-              @click="saveProduct"
-            ></v-btn>
-          </v-card-actions>
+          <v-card class="pa-15 pt-0 pb-4">
+            <v-card-text class="text-medium-emphasis text-caption text-center">
+              This action will remove your product from the product table.
+            </v-card-text>
+            <v-card-actions class="mt-5">
+              <v-spacer></v-spacer>
+              <v-btn
+                text="Cancel" variant="flat"
+                color="secondary"
+                size="large"
+                @click="isActive.value = false"
+              ></v-btn>
+              <v-btn
+                :loading="loading"
+                :disabled="loading"
+                color="primary" text="Delete" variant="flat"
+                size="large"
+                @click="saveProduct"
+              ></v-btn>
+            </v-card-actions>
+          </v-card>
         </v-card>
       </template>
     </v-dialog>

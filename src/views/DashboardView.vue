@@ -98,7 +98,7 @@
   const handleRemove = async(product) => {
     saveLoading.value = true;
     try {
-      await axios.delete(`http://localhost:3000/product/${product.id}`)
+      await axios.delete(`${import.meta.env.VITE_APP_API_URL}/product/${product.id}`)
       showToast('Product removed successfully!', 'success');
       getProducts();
     } catch (error) {
