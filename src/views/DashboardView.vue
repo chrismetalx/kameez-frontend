@@ -12,6 +12,7 @@
 
   const product = ref({
     id: null,
+    stock: '',
     name: '',
     price: 0,
     size: '',
@@ -20,6 +21,7 @@
 
   const headers = [
     { title: 'Id', key: 'id', align: 'start' },
+    { title: 'In stock', key: 'stock', align: 'start' },
     { title: 'Name', key: 'name' },
     { title: 'Price', key: 'price' },
     { title: 'Size', key: 'size', align: 'end' },
@@ -34,6 +36,7 @@
   const openAddDialog = () => {
     product.value = {
       id: null,
+      stock: '',
       name: '',
       price: 0,
       size: '',
@@ -125,6 +128,15 @@
             @click="openAddDialog"
           >Add a Product</v-btn>
         </v-toolbar>
+      </template>
+      <template v-slot:item.stock="{ item }">
+        <v-chip
+          :color="item.stock ? 'green' : 'red'"
+          variant="elevated"
+          size="small"
+        >
+          {{ item.stock ? 'Active' : 'Inactive' }}
+        </v-chip>
       </template>
       <template v-slot:item.actions="{ item }">
         <div class="d-flex ga-2 justify-end">

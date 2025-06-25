@@ -12,6 +12,7 @@
 
   const form = ref(null);
   const imageFile = ref(null);
+  const inStock = ref(false);
 
   // Reglas de validación
   const nameRules = [
@@ -127,16 +128,16 @@
                 ></v-text-field>
               </v-col>
               <v-col cols="12">
-                <v-text-field
+                <v-select
                   v-model="product.size"
                   label="Size*"
                   density="compact"
-                  placeholder="M"
+                  placeholder="Select a size"
                   variant="outlined"
                   :rules="sizeRules"
-                  :items="['S', 'M', 'L', 'XL']"
+                  :items="['XS', 'S', 'M', 'L', 'XL', 'XXL']"
                   required
-                ></v-text-field>
+                ></v-select>
               </v-col>
               <v-col cols="12">
                 <v-file-input
@@ -158,7 +159,17 @@
                   max-height="150"
                   contain
                   class="mt-2"
-              ></v-img>
+                ></v-img>
+              </v-col>
+              <v-col cols="12">
+                <div class="d-flex justify-space-between align-center mb-3">
+                  <v-checkbox
+                    v-model="product.stock"
+                    :label="product.stock? 'Active' : 'Inactive'"
+                    color="primary"
+                    hide-details
+                  ></v-checkbox>
+                </div>
               </v-col>
             </v-row>
             <v-divider></v-divider>
