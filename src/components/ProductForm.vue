@@ -12,7 +12,6 @@
 
   const form = ref(null);
   const imageFile = ref(null);
-  const inStock = ref(false);
 
   // Reglas de validación
   const nameRules = [
