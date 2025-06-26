@@ -4,12 +4,14 @@
   import ProductForm from '@/components/ProductForm.vue';
   import { useToast } from '../composables/useToast';
   import ProductRemove from '@/components/ProductRemove.vue';
+  import { useRouter } from 'vue-router';
 
   const { showToast } = useToast();
   const products = ref([]);
   const showModal = ref(false);
   const alertMessage = ref(false);
   const saveLoading = ref(false);
+  const router = useRouter();
 
   const product = ref({
     id: null,
@@ -48,6 +50,10 @@
     showModal.value = true;
     alertMessage.value = false;
   };
+
+  const goToProductView = (event, { item }) => {
+    router.push(`/dashboard/${item.id}`)
+  }
 
   const openEditDialog = (item) => {
     product.value = {...item}
@@ -131,7 +137,7 @@
         </p>
       </v-toolbar-title>
       <v-btn
-        class="me-2"
+        class="me-5"
         prepend-icon="mdi-plus"
         color="secondary"
         variant="flat"
@@ -142,20 +148,10 @@
     <v-data-table
       :headers="headers"
       :items="products"
+      hover
+      @click:row="goToProductView"
       class="px-3"
     >
-      <template v-slot:item.name="{ item }">
-        <router-link :to="`/dashboard/${item.id}`" class="d-flex align-center fill-height text-decoration-none">
-          <v-chip
-            color="primary"
-            :text="value"
-            border="thin opacity-25"
-            prepend-icon="mdi-book"
-          >
-            {{ item.name }}
-          </v-chip>
-        </router-link>
-      </template>
       <template v-slot:item.stock="{ item }">
         <div class="d-flex justify-center">
           <v-chip
@@ -168,7 +164,7 @@
         </div>
       </template>
       <template v-slot:item.actions="{ item }">
-        <div class="d-flex ga-2 justify-end">
+        <div class="d-flex ga-2 justify-end" @click.stop>
           <v-btn color="warning" icon="mdi-pencil" size="small" @click="openEditDialog(item)"/>
           <ProductRemove :itemProduct="item" @deleteProduct="handleRemove" :loading="saveLoading"/>
         </div>
@@ -192,3 +188,9 @@
     @save="handleSave"
   />
 </template>
+
+<style scoped>
+  .v-data-table__tr .d-flex.justify-end {
+    cursor: default;
+  }
+</style>
