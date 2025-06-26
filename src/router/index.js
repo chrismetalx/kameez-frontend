@@ -36,6 +36,14 @@ const router = createRouter({
         hideNavbar: false,
       }
     },
+    {
+      path: '/dashboard/:id',
+      name: 'product',
+      component: () => import('../views/ProductView.vue'),
+      meta: {
+        hideNavbar: false,
+      }
+    },
   ],
 })
 

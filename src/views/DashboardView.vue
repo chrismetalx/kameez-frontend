@@ -143,6 +143,18 @@
           >Add a Product</v-btn>
         </v-toolbar>
       </template>
+      <template v-slot:item.name="{ item }">
+        <router-link :to="`/dashboard/${item.id}`">
+          <v-chip
+            color="primary"
+            :text="value"
+            border="thin opacity-25"
+            prepend-icon="mdi-book"
+          >
+            {{ item.name }}
+          </v-chip>
+        </router-link>
+      </template>
       <template v-slot:item.stock="{ item }">
         <div class="d-flex justify-center">
           <v-chip
