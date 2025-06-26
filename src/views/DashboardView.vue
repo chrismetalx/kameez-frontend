@@ -17,7 +17,8 @@
     name: '',
     price: 0,
     size: '',
-    image: ''
+    image: '',
+    description: ''
   });
 
   const headers = [
@@ -41,7 +42,8 @@
       name: '',
       price: 0,
       size: '',
-      image: ''
+      image: '',
+      description: ''
     }
     showModal.value = true;
     alertMessage.value = false;
@@ -121,30 +123,29 @@
 
 <template>
   <v-sheet border rounded max-width="90%" class="mx-auto mt-10 my-table mb-10">
+    <v-toolbar flat color="primary" rounded class="mb-4">
+      <v-toolbar-title>
+        <p class="text-white">
+          <v-icon color="white" icon="mdi-book-multiple" size="x-small" start/>
+          Products
+        </p>
+      </v-toolbar-title>
+      <v-btn
+        class="me-2"
+        prepend-icon="mdi-plus"
+        color="secondary"
+        variant="flat"
+        border
+        @click="openAddDialog"
+      >Add a Product</v-btn>
+    </v-toolbar>
     <v-data-table
       :headers="headers"
       :items="products"
+      class="px-3"
     >
-      <template v-slot:top>
-        <v-toolbar flat color="primary" rounded>
-          <v-toolbar-title>
-            <p class="text-white">
-              <v-icon color="white" icon="mdi-book-multiple" size="x-small" start/>
-              Products
-            </p>
-          </v-toolbar-title>
-          <v-btn
-            class="me-2"
-            prepend-icon="mdi-plus"
-            color="secondary"
-            variant="flat"
-            border
-            @click="openAddDialog"
-          >Add a Product</v-btn>
-        </v-toolbar>
-      </template>
       <template v-slot:item.name="{ item }">
-        <router-link :to="`/dashboard/${item.id}`">
+        <router-link :to="`/dashboard/${item.id}`" class="d-flex align-center fill-height text-decoration-none">
           <v-chip
             color="primary"
             :text="value"
