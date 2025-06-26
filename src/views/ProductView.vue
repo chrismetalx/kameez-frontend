@@ -11,7 +11,7 @@
 
   const product = ref([]);
   const showProductData = async () => {
-    const { data } = await axios.get(`http://localhost:3000/product/${route.params.id}`);
+    const { data } = await axios.get(`${import.meta.env.VITE_APP_API_URL}/product/${route.params.id}`);
     product.value = data;
   };
 
