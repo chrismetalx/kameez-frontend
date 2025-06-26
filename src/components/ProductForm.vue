@@ -33,6 +33,11 @@
     (v) => !v || ['image/jpeg', 'image/png', 'image/webp'].includes(v.type) || 'Only images are allowed JPG, PNG o WEBP'
   ];
 
+  const descriptionRules = [
+    v => !!v || 'Description is required',
+    v => (v && v.length >= 6) || 'Description must be at least 6 characters'
+  ];
+
   const emit = defineEmits(['update:modelValue', 'save']);
 
   const dialog = computed({
@@ -125,6 +130,20 @@
                   :rules="priceRules"
                   required
                 ></v-text-field>
+              </v-col>
+              <v-col cols="12">
+                <v-textarea
+                  v-model="product.description"
+                  label="Description"
+                  :rules="descriptionRules"
+                  density="compact"
+                  placeholder="Enter product description"
+                  variant="outlined"
+                  rows="3"
+                  auto-grow
+                  counter
+                  :maxlength="500"
+                ></v-textarea>
               </v-col>
               <v-col cols="12">
                 <v-select
