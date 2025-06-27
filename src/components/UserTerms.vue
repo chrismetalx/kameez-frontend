@@ -9,7 +9,7 @@
   <div class="text-center">
     <v-dialog max-width="500" rounded="lg">
       <template v-slot:activator="{ props: activatorProps }">
-        <a class="text-decoration-none cursor-pointer" v-bind="activatorProps">I agree to privacy policy & terms</a>
+        <a class="text-decoration-none cursor-pointer text-secondary" v-bind="activatorProps">I agree to privacy policy & terms</a>
       </template>
       <template v-slot:default="{ isActive }">
         <v-card>
