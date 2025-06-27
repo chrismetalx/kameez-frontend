@@ -128,7 +128,7 @@
 </script>
 
 <template>
-  <v-sheet border rounded max-width="90%" class="mx-auto mt-10 my-table mb-10">
+  <v-sheet border rounded max-width="100%" class="mx-lg-15 mt-10 my-table mb-10 table-product">
     <v-toolbar flat color="primary" rounded class="mb-4">
       <v-toolbar-title>
         <p class="text-white">
@@ -192,5 +192,12 @@
 <style scoped>
   .v-data-table__tr .d-flex.justify-end {
     cursor: default;
+  }
+
+  @media (max-width: 960px) {
+    .table-product {
+      margin-left: 1rem;
+      margin-right: 1rem;
+    }
   }
 </style>

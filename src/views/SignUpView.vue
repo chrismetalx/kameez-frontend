@@ -3,6 +3,7 @@
   import axios from 'axios';
   import { useRouter } from 'vue-router';
   import { useToast } from '../composables/useToast';
+import UserTerms from '@/components/UserTerms.vue';
 
   const { showToast } = useToast();
   const visible = ref(false);
@@ -104,9 +105,9 @@
         <v-alert
           v-if="errorMessage"
           type="warning"
-          class="mb-8"
-          color="grey-lighten-2"
-          border="start"
+          class="mb-8 border-opacity-100 text-warning bg-black border-warning border-md"
+          border="top"
+          variant="outlined"
         >
           {{ errorMessage }}
         </v-alert>
@@ -157,13 +158,13 @@
             variant="outlined"
             @click:append-inner="visible = !visible"
           ></v-text-field>
-          <div class="d-flex justify-space-between align-center mb-3">
+          <div class="d-flex align-center mb-3">
             <v-checkbox
               v-model="terms"
-              label="I agree to privacy policy & terms"
               color="primary"
               hide-details
             ></v-checkbox>
+            <UserTerms :loading="isLoading"/>
           </div>
           <v-btn
             :loading="isLoading"
