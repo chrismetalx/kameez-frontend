@@ -1,9 +1,16 @@
 <script setup>
   import { storeToRefs } from 'pinia';
   import { useUserStore } from '@/stores/user';
+  import { useRouter } from 'vue-router';
 
   const useUser = useUserStore();
   const { user } = storeToRefs(useUser);
+  const router = useRouter();
+
+  const logout = () => {
+    useUser.resetState();
+    router.push('/');
+  }
 </script>
 
 <template>
@@ -23,9 +30,9 @@
         </div>
         <v-spacer></v-spacer>
         <span class="text-h6 mr-5">{{ user.firstName}} {{ user.lastName }}</span>
-        <v-btn text color="secondary" variant="flat">
+        <v-btn @click="logout" text color="secondary" variant="flat">
           <v-icon left>mdi-logout</v-icon>
-          Log Out
+          LogOut
         </v-btn>
       </v-app-bar>
       <v-main>
