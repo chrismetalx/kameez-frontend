@@ -105,7 +105,7 @@ import UserTerms from '@/components/UserTerms.vue';
         <v-alert
           v-if="errorMessage"
           type="warning"
-          class="mb-8 border-opacity-100 text-warning bg-black border-warning border-md"
+          class="mb-8 border-opacity-100 text-warning bg-grey-lighten-3 border-warning border-md"
           border="top"
           variant="outlined"
         >
@@ -164,6 +164,7 @@ import UserTerms from '@/components/UserTerms.vue';
               color="primary"
               hide-details
             ></v-checkbox>
+            <p class="mr-1">I agree to</p>
             <UserTerms :loading="isLoading"/>
           </div>
           <v-btn

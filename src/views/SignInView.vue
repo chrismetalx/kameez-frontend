@@ -65,7 +65,7 @@
         <v-alert
           v-if="errorMessage"
           type="warning"
-          class="mb-8 border-opacity-100 text-warning bg-black border-warning border-md"
+          class="mb-8 border-opacity-100 text-warning bg-grey-lighten-3 border-warning border-md"
           border="top"
           variant="outlined"
         >

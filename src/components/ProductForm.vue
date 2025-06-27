@@ -99,9 +99,9 @@
           <v-alert
             v-if="alertMessage"
             type="warning"
-          class="mb-8 border-opacity-100 text-warning bg-black border-warning border-md"
-          border="top"
-          variant="outlined"
+            class="mb-8 border-opacity-100 text-warning bg-grey-lighten-3 border-warning border-md"
+            border="top"
+            variant="outlined"
           >
             <p class="text-body-2">A product already exist with this name.</p>
           </v-alert>

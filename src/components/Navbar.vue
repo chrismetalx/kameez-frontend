@@ -18,6 +18,7 @@
     <v-layout>
       <v-app-bar
         color="primary"
+        class="px-lg-15"
       >
         <div class="d-flex align-center">
           <img
