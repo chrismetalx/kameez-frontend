@@ -73,9 +73,9 @@
         <v-alert
           v-if="errorMessage"
           type="warning"
-          class="mb-8"
-          color="grey-lighten-2"
-          border="start"
+          class="mb-8 border-opacity-100 text-warning bg-grey-lighten-3 border-warning border-md"
+          border="top"
+          variant="outlined"
         >
           {{ errorMessage }}
         </v-alert>
