@@ -1,3 +1,8 @@
+<div align="center">
+  <img src="src/assets/logo/logo-readme.png" alt="Kameez logo" width="150">
+  <p class="text-center">Elegance in every stitch.</P>
+</div>
+
 ### Kameez<br/>
 ***
 This page is about Kameez, a fictional brand of shirts and flannels. Our main colors are indigo blue and orange. We also chose gray for the background of the pages, in addition to black and white, to maintain an overall harmony on our page.<br/>
