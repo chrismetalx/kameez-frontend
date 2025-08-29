@@ -1,8 +1,9 @@
 <script setup>
   import { ref } from 'vue';
-  import axios from 'axios';
+  import apiClient from '@/composables/apiClient.js';
   import { useUserStore } from '@/stores/user';
   import { useRouter } from 'vue-router';
+  import { storeToRefs } from 'pinia';
 
   const visible = ref(false);
   const isLoading = ref();
@@ -12,6 +13,7 @@
   const useUser = useUserStore();
 
   const { saveUser } = useUser;
+  const { token } = storeToRefs(useUser);
 
   const user = ref({
     email: '',
@@ -25,19 +27,19 @@
     try {
       errorMessage.value = '';
 
-      const { data } = await axios.get(`${import.meta.env.VITE_APP_API_URL}/user?email=${user.value.email}&password=${user.value.password}`);
+      const { data } = await apiClient.post(`${import.meta.env.VITE_APP_API_URL}/login`, user.value);
 
-      if (data.length === 0) {
-        throw new Error('Email or password incorrectly.');
-      };
-
-      const userData = data[0];
-
-      saveUser(userData);
+      if (data.data.user) {
+        const userData = data.data.user;
+        token.value = data.data.token;
+        saveUser(userData);
+      }
 
       router.push('/dashboard');
     } catch (error) {
-      errorMessage.value = error.message || 'An error occurred.';
+      if (error.response && error.response.data && error.response.data.message) {
+        errorMessage.value = error.response.data.message;
+      }
     } finally {
       isLoading.value = false;
     }

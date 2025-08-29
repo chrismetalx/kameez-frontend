@@ -1,6 +1,6 @@
 <script setup>
   import { ref } from 'vue';
-  import axios from 'axios';
+  import apiClient from '@/composables/apiClient.js';
   import ProductForm from '@/components/ProductForm.vue';
   import { useToast } from '../composables/useToast';
   import ProductRemove from '@/components/ProductRemove.vue';
@@ -10,6 +10,8 @@
   const products = ref([]);
   const showModal = ref(false);
   const alertMessage = ref(false);
+  const successMessage = ref('');
+  const errorMessage = ref('');
   const saveLoading = ref(false);
   const router = useRouter();
 
@@ -33,8 +35,9 @@
   ];
 
   const getProducts = async () => {
-    const { data } = await axios.get(`${import.meta.env.VITE_APP_API_URL}/product`);
-    products.value = data;
+    const { data } = await apiClient.get(`${import.meta.env.VITE_APP_API_URL}/products`);
+
+    products.value = data.data;
   };
 
   const openAddDialog = () => {
@@ -65,18 +68,21 @@
     alertMessage.value = false;
     saveLoading.value = true;
     try {
-      const { data } = await axios.get(`${import.meta.env.VITE_APP_API_URL}/product?name=${product.name}`);
-      if (data.length && data[0].id !== product.id) {
+      successMessage.value = '';
+      errorMessage.value = '';
+
+      const { data } = await apiClient.put(`${import.meta.env.VITE_APP_API_URL}/products/${product.id}`, product);
+      successMessage.value = data.message;
+
+      showToast(successMessage.value, 'success');
+      getProducts();
+      showModal.value = false;
+    } catch (error) {
+      if (error.response && error.response.data && error.response.data.message) {
         alertMessage.value = true;
         saveLoading.value = false;
-      } else {
-        await axios.put(`${import.meta.env.VITE_APP_API_URL}/product/${product.id}`, product);
-        showToast('Product edited successfully!', 'success');
-        getProducts();
-        showModal.value = false;
+        errorMessage.value = error.response.data.message;
       }
-    } catch (error) {
-      console.log(error);
     } finally {
       saveLoading.value = false;
     }
@@ -86,18 +92,22 @@
     alertMessage.value = false;
     saveLoading.value = true;
     try {
-      const { data } = await axios.get(`${import.meta.env.VITE_APP_API_URL}/product?name=${product.name}`);
-      if (data.length) {
+      successMessage.value = '';
+      errorMessage.value = '';
+      alertMessage.value = false;
+
+      const { data } = await apiClient.post(`${import.meta.env.VITE_APP_API_URL}/products`, product);
+      successMessage.value = data.message;
+
+      showToast(successMessage.value, 'success');
+      getProducts();
+      showModal.value = false;
+    } catch (error) {
+      if (error.response && error.response.data && error.response.data.message) {
         alertMessage.value = true;
         saveLoading.value = false;
-      } else {
-        await axios.post(`${import.meta.env.VITE_APP_API_URL}/product`, product);
-        showToast('Product created successfully!', 'success');
-        getProducts();
-        showModal.value = false;
+        errorMessage.value = error.response.data.message;
       }
-    } catch (error) {
-      console.log(error);
     } finally {
       saveLoading.value = false;
     }
@@ -106,11 +116,17 @@
   const handleRemove = async(product) => {
     saveLoading.value = true;
     try {
-      await axios.delete(`${import.meta.env.VITE_APP_API_URL}/product/${product.id}`)
-      showToast('Product removed successfully!', 'success');
+      successMessage.value = '';
+
+      const { data } = await apiClient.delete(`${import.meta.env.VITE_APP_API_URL}/products/${product.id}`);
+
+      successMessage.value = data.message;
+      showToast(successMessage.value, 'success');
       getProducts();
     } catch (error) {
-      console.log(error);
+      if (error.response && error.response.data && error.response.data.message) {
+        errorMessage.value = error.response.data.message;
+      }
     } finally {
       saveLoading.value = false;
     }
@@ -185,6 +201,7 @@
     :product="product"
     :loading="saveLoading"
     :alertMessage="alertMessage"
+    :errorMessage="errorMessage"
     @save="handleSave"
   />
 </template>

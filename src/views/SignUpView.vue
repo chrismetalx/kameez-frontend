@@ -3,7 +3,7 @@
   import axios from 'axios';
   import { useRouter } from 'vue-router';
   import { useToast } from '../composables/useToast';
-import UserTerms from '@/components/UserTerms.vue';
+  import UserTerms from '@/components/UserTerms.vue';
 
   const { showToast } = useToast();
   const visible = ref(false);
@@ -17,72 +17,40 @@ import UserTerms from '@/components/UserTerms.vue';
     lastName: "",
     email: "",
     password: "",
-    confirmPassword: ""
+    confirmPassword: "",
+    terms: false
   });
 
+  const successMessage = ref('');
   const errorMessage = ref('');
 
   const signUpFunctionality = async () => {
     isLoading.value = true;
     try {
-      if (user.value.firstName === "") {
-        throw new Error('The first name field is required.');
-      }
-
-      if (user.value.lastName === "") {
-        throw new Error('The last name field is required.');
-      }
-
-      if (user.value.email === "") {
-        throw new Error('The email field is required.');
-      }
-
-      if (user.value.password === "") {
-        throw new Error('The password field is required.');
-      }
-
-      if (user.value.confirmPassword === "") {
-        throw new Error('The confirm password field is required.');
-      }
-
-      if (terms.value === false) {
-        throw new Error('Accept the terms and services.');
-      }
-
+      successMessage.value = '';
       errorMessage.value = '';
 
-      const { data } = await axios.get(`${import.meta.env.VITE_APP_API_URL}/user?email=${user.value.email}`);
+      const { data } = await axios.post(`${import.meta.env.VITE_APP_API_URL}/users`, user.value);
 
-      if (data.length === 1) {
-        throw new Error('Already exist an user with the email.');
-      }
+      successMessage.value = data.message;
 
-      if (user.value.password !== user.value.confirmPassword) {
-        throw new Error('The password and confirm password do not match.');
-      }
+      user.value = {
+        firstName: "",
+        lastName: "",
+        email: "",
+        password: "",
+        confirmPassword: "",
+        terms: false
+      };
 
-      const newUser = {
-        firstName: user.value.firstName,
-        lastName: user.value.lastName,
-        email: user.value.email,
-        password: user.value.password,
-      }
-
-      await axios.post(`${import.meta.env.VITE_APP_API_URL}/user`, newUser);
-
-      user.value.firstName = "";
-      user.value.lastName = "";
-      user.value.email = "";
-      user.value.password = "";
-      user.value.confirmPassword = "";
-
-      showToast('User created successfully!', 'success');
+      showToast(successMessage.value, 'success');
       router.push('/');
     } catch (error) {
-      errorMessage.value = error.message || 'An error occurred.';
+      if (error.response && error.response.data && error.response.data.message) {
+        errorMessage.value = error.response.data.message;
+      }
     } finally {
       isLoading.value = false;
-      terms.value = false;
     }
   }
 </script>
@@ -160,7 +128,7 @@ import UserTerms from '@/components/UserTerms.vue';
           ></v-text-field>
           <div class="d-flex align-center mb-3">
             <v-checkbox
-              v-model="terms"
+              v-model="user.terms"
               color="primary"
               hide-details
             ></v-checkbox>

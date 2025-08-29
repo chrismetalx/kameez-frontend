@@ -5,44 +5,31 @@
 
   const visible = ref(false);
   const isLoading = ref(false);
+  const successMessage = ref('');
   const errorMessage = ref('');
   const showCard = ref(false);
   const router = useRouter();
 
   const user = ref({
     email: "",
-    newPassword: "",
-    confirmNewPassword: ""
+    password: "",
+    confirmPassword: ""
   });
 
   const resetPasswordFunctionality = async () => {
     isLoading.value = true;
     try {
+      successMessage.value = '';
       errorMessage.value = '';
 
-      if (user.value.email === "" || user.value.newPassword === "" || user.value.confirmNewPassword === "") {
-        throw new Error('All fields are required.');
-      };
+      const { data } = await axios.patch(`${import.meta.env.VITE_APP_API_URL}/users`, user.value);
 
-      if (user.value.newPassword !== user.value.confirmNewPassword) {
-        throw new Error('The new password and confirm new password do not match.');
-      };
-
-      const { data } = await axios.get(`${import.meta.env.VITE_APP_API_URL}/user?email=${user.value.email}`);
-
-      if (data.length === 0) {
-        throw new Error('The email you entered does not have a user created.');
-      };
-
-      const userData = data[0].id;
-
-      await axios.patch(`${import.meta.env.VITE_APP_API_URL}/user/${userData}`, {
-        password: user.value.newPassword,
-      });
-
+      successMessage.value = data.message;
       showCard.value = true;
     } catch (error) {
-      errorMessage.value = error.message || 'An error ocurred.';
+      if (error.response && error.response.data && error.response.data.message) {
+        errorMessage.value = error.response.data.message;
+      }
     } finally {
       isLoading.value = false;
     }
@@ -89,7 +76,7 @@
             variant="outlined"
           ></v-text-field>
           <v-text-field
-            v-model="user.newPassword"
+            v-model="user.password"
             :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
             :type="visible ? 'text' : 'password'"
             density="compact"
@@ -99,7 +86,7 @@
             @click:append-inner="visible = !visible"
           ></v-text-field>
           <v-text-field
-            v-model="user.confirmNewPassword"
+            v-model="user.confirmPassword"
             :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
             :type="visible ? 'text' : 'password'"
             density="compact"
@@ -131,7 +118,7 @@
       rounded="lg"
     >
       <v-icon color="success" size="64">mdi-check-circle</v-icon>
-      <v-card-title class="text-h6 justify-center mt-4 text-secondary">Password Changed Successfully!</v-card-title>
+      <v-card-title class="text-h6 justify-center mt-4 text-secondary">{{ successMessage }}</v-card-title>
       <v-card-text>Your password has been successfully updated.</v-card-text>
       <v-btn color="primary" @click="goToLogin" block size="large" class="mt-4">
         Go to Sign in

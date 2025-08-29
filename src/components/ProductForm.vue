@@ -5,6 +5,7 @@
     modelValue: Boolean,
     loading: Boolean,
     alertMessage: Boolean,
+    errorMessage: String,
     product: {
       type: Object,
     }
@@ -103,7 +104,7 @@
             border="top"
             variant="outlined"
           >
-            <p class="text-body-2">A product already exist with this name.</p>
+            <p class="text-body-2">{{ errorMessage }}</p>
           </v-alert>
           <v-form ref="form" @submit.prevent="saveProduct">
             <v-row dense>
@@ -159,8 +160,8 @@
               </v-col>
               <v-col cols="12">
                 <v-file-input
-                  :v-model="product.id ? imageFile : ''"
-                  :rules="product.id ? '': imageRules"
+                  :v-model="product.id ? imageFile : []"
+                  :rules="product.id ? []: imageRules"
                   label="Product Image"
                   density="compact"
                   variant="outlined"

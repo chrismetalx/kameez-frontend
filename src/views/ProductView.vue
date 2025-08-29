@@ -1,5 +1,5 @@
 <script setup>
-  import axios from 'axios';
+  import apiClient from '@/composables/apiClient.js';
   import { ref } from 'vue';
   import { useRoute, useRouter } from 'vue-router';
   const route = useRoute();
@@ -9,10 +9,11 @@
     router.push('/dashboard');
   };
 
-  const product = ref([]);
+  const product = ref({});
   const showProductData = async () => {
-    const { data } = await axios.get(`${import.meta.env.VITE_APP_API_URL}/product/${route.params.id}`);
-    product.value = data;
+    const { data } = await apiClient.get(`${import.meta.env.VITE_APP_API_URL}/products/${route.params.id}`);
+
+    product.value = data.data;
   };
 
   showProductData();
