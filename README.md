@@ -21,11 +21,11 @@ This page is about Kameez, a fictional brand of shirts and flannels. Our main co
 
 * **Page not found Page**: The page not found page displays an error message to the user, telling them that the page could not be found.
 
-* In this project were applied: **VUE 3**, **VUETIFY** for the frontend, and for the backend **JSONSERVER** for its creation. and it has also been made responsive.<br/>
+* In this project were applied: **VUE 3**, **VUETIFY** for the frontend, and for the creation of the backend we used **NODE.js**, the **EXPRESS** framework and the **SEQUELIZE ORM**. and it has also been made responsive.<br/>
 
 ### :pushpin: Link<br/>
 ***
-:link: Live Demo:  https://kameez-client.netlify.app/<br/>
+:link: Live Demo:  https://kameez-vue-crud.netlify.app/<br/>
 
 ***
 **This project was carried out for learning purposes.**
