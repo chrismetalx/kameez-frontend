@@ -7,7 +7,7 @@
     }
   });
 
-  const emit = defineEmits('deleteProduct');
+  const emit = defineEmits(['deleteProduct']);
 
   const saveProduct = () => {
     emit('deleteProduct', props.itemProduct)

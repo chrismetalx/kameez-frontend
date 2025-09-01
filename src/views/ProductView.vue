@@ -1,9 +1,16 @@
 <script setup>
-  import apiClient from '@/composables/apiClient.js';
-  import { ref } from 'vue';
+  import { ref, watchEffect } from 'vue';
   import { useRoute, useRouter } from 'vue-router';
+  import { useApi } from '@/composables/useApi';
   const route = useRoute();
   const router = useRouter();
+
+  const {
+    data: apiData,
+    error: apiError,
+    isLoading: saveLoading,
+    execute
+  } = useApi();
 
   const back = () => {
     router.push('/dashboard');
@@ -11,9 +18,10 @@
 
   const product = ref({});
   const showProductData = async () => {
-    const { data } = await apiClient.get(`${import.meta.env.VITE_APP_API_URL}/products/${route.params.id}`);
-
-    product.value = data.data;
+    await execute('GET', `/products/${route.params.id}`);
+    if (apiData.value) {
+      product.value = apiData.value.data;
+    }
   };
 
   showProductData();

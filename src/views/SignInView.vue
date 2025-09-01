@@ -1,6 +1,6 @@
 <script setup>
   import { ref } from 'vue';
-  import apiClient from '@/composables/apiClient.js';
+  import axios from 'axios';
   import { useUserStore } from '@/stores/user';
   import { useRouter } from 'vue-router';
   import { storeToRefs } from 'pinia';
@@ -26,8 +26,17 @@
     isLoading.value = true;
     try {
       errorMessage.value = '';
+      const { email, password } = user.value;
 
-      const { data } = await apiClient.post(`${import.meta.env.VITE_APP_API_URL}/login`, user.value);
+      if (!email) {
+        return errorMessage.value = 'Email is required.';
+      }
+
+      if (!password) {
+        return errorMessage.value = 'Password is required.';
+      }
+
+      const { data } = await axios.post(`${import.meta.env.VITE_APP_API_URL}/login`, user.value);
 
       if (data.data.user) {
         const userData = data.data.user;

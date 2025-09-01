@@ -1,20 +1,23 @@
 <script setup>
-  import { ref } from 'vue';
-  import apiClient from '@/composables/apiClient.js';
+  import { onMounted, ref } from 'vue';
   import ProductForm from '@/components/ProductForm.vue';
   import { useToast } from '../composables/useToast';
   import ProductRemove from '@/components/ProductRemove.vue';
   import { useRouter } from 'vue-router';
+  import { useApi } from '@/composables/useApi';
 
   const { showToast } = useToast();
-  const products = ref([]);
-  const showModal = ref(false);
-  const alertMessage = ref(false);
-  const successMessage = ref('');
-  const errorMessage = ref('');
-  const saveLoading = ref(false);
   const router = useRouter();
 
+  const {
+    data: apiData,
+    error: apiError,
+    isLoading: saveLoading,
+    execute
+  } = useApi();
+
+  const products = ref([]);
+  const showModal = ref(false);
   const product = ref({
     id: null,
     stock: '',
@@ -35,12 +38,14 @@
   ];
 
   const getProducts = async () => {
-    const { data } = await apiClient.get(`${import.meta.env.VITE_APP_API_URL}/products`);
-
-    products.value = data.data;
+    await execute('GET', '/products');
+    if (apiData.value) {
+      products.value = apiData.value.data;
+    }
   };
 
   const openAddDialog = () => {
+    apiError.value = '';
     product.value = {
       id: null,
       stock: '',
@@ -49,94 +54,43 @@
       size: '',
       image: '',
       description: ''
-    }
+    };
     showModal.value = true;
-    alertMessage.value = false;
   };
 
   const goToProductView = (event, { item }) => {
-    router.push(`/dashboard/${item.id}`)
-  }
+    router.push(`/dashboard/${item.id}`);
+  };
 
   const openEditDialog = (item) => {
-    product.value = {...item}
+    apiError.value = '';
+    product.value = { ...item };
     showModal.value = true;
-    alertMessage.value = false;
   };
 
-  const handleEdit =  async(product) => {
-    alertMessage.value = false;
-    saveLoading.value = true;
-    try {
-      successMessage.value = '';
-      errorMessage.value = '';
-
-      const { data } = await apiClient.put(`${import.meta.env.VITE_APP_API_URL}/products/${product.id}`, product);
-      successMessage.value = data.message;
-
-      showToast(successMessage.value, 'success');
+  const handleRemove = async (product) => {
+    await execute('DELETE', `/products/${product.id}`);
+    if (apiData.value) {
+      showToast(apiData.value.message, 'success');
       getProducts();
-      showModal.value = false;
-    } catch (error) {
-      if (error.response && error.response.data && error.response.data.message) {
-        alertMessage.value = true;
-        saveLoading.value = false;
-        errorMessage.value = error.response.data.message;
-      }
-    } finally {
-      saveLoading.value = false;
     }
   };
 
-  const handleCreate =  async(product) => {
-    alertMessage.value = false;
-    saveLoading.value = true;
-    try {
-      successMessage.value = '';
-      errorMessage.value = '';
-      alertMessage.value = false;
-
-      const { data } = await apiClient.post(`${import.meta.env.VITE_APP_API_URL}/products`, product);
-      successMessage.value = data.message;
-
-      showToast(successMessage.value, 'success');
-      getProducts();
-      showModal.value = false;
-    } catch (error) {
-      if (error.response && error.response.data && error.response.data.message) {
-        alertMessage.value = true;
-        saveLoading.value = false;
-        errorMessage.value = error.response.data.message;
-      }
-    } finally {
-      saveLoading.value = false;
-    }
-  };
-
-  const handleRemove = async(product) => {
-    saveLoading.value = true;
-    try {
-      successMessage.value = '';
-
-      const { data } = await apiClient.delete(`${import.meta.env.VITE_APP_API_URL}/products/${product.id}`);
-
-      successMessage.value = data.message;
-      showToast(successMessage.value, 'success');
-      getProducts();
-    } catch (error) {
-      if (error.response && error.response.data && error.response.data.message) {
-        errorMessage.value = error.response.data.message;
-      }
-    } finally {
-      saveLoading.value = false;
-    }
-  };
-
-  const handleSave = (product) => {
+  const handleSave = async (product) => {
     if (product.id) {
-      handleEdit(product);
+      await execute('PUT', `/products/${product.id}`, product);
+      if (apiData.value) {
+        showToast(apiData.value.message, 'success');
+        getProducts();
+        showModal.value = false;
+      }
     } else {
-      handleCreate(product);
+      await execute('POST', '/products', product);
+      if (apiData.value) {
+        showToast(apiData.value.message, 'success');
+        getProducts();
+        showModal.value = false;
+      }
     }
   };
 
@@ -200,8 +154,8 @@
     v-model="showModal"
     :product="product"
     :loading="saveLoading"
-    :alertMessage="alertMessage"
-    :errorMessage="errorMessage"
+    :alertMessage="!!apiError"
+    :errorMessage="apiError ? apiError.message : ''"
     @save="handleSave"
   />
 </template>

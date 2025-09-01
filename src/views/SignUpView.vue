@@ -7,7 +7,7 @@
 
   const { showToast } = useToast();
   const visible = ref(false);
-  const terms = ref(false);
+  const terms = ref();
   const isLoading = ref();
 
   const router = useRouter();
@@ -18,7 +18,6 @@
     email: "",
     password: "",
     confirmPassword: "",
-    terms: false
   });
 
   const successMessage = ref('');
@@ -30,6 +29,37 @@
       successMessage.value = '';
       errorMessage.value = '';
 
+      const { firstName, lastName, email, password, confirmPassword } = user.value;
+
+      if (!firstName) {
+        return errorMessage.value = 'First name is required.'
+      }
+
+      if (!lastName) {
+        return errorMessage.value = 'Last name is required.'
+      }
+
+      if (!email) {
+        return errorMessage.value = 'Email is required.';
+      }
+
+      if (!password) {
+        return errorMessage.value = 'Password is required.';
+      }
+
+      if (!confirmPassword) {
+        return errorMessage.value = 'Confirm password is required.';
+      }
+
+
+      if (password !== confirmPassword) {
+        return errorMessage.value = 'The password and confirm password do not match.'
+      };
+
+      if (!terms.value) {
+        return errorMessage.value = 'Accept the terms and services.'
+      }
+
       const { data } = await axios.post(`${import.meta.env.VITE_APP_API_URL}/users`, user.value);
 
       successMessage.value = data.message;
@@ -40,12 +70,12 @@
         email: "",
         password: "",
         confirmPassword: "",
-        terms: false
       };
 
       showToast(successMessage.value, 'success');
       router.push('/');
     } catch (error) {
+      errorMessage.value = '';
       if (error.response && error.response.data && error.response.data.message) {
         errorMessage.value = error.response.data.message;
       }
@@ -128,7 +158,7 @@
           ></v-text-field>
           <div class="d-flex align-center mb-3">
             <v-checkbox
-              v-model="user.terms"
+              v-model="terms"
               color="primary"
               hide-details
             ></v-checkbox>

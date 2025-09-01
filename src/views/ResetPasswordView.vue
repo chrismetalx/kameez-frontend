@@ -22,6 +22,28 @@
       successMessage.value = '';
       errorMessage.value = '';
 
+      const { email, password, confirmPassword } = user.value;
+
+      if (!email) {
+        return errorMessage.value = 'Email is required.';
+      }
+
+      if (!password) {
+        return errorMessage.value = 'Password is required.';
+      }
+
+      if (!confirmPassword) {
+        return errorMessage.value = 'Confirm password is required.';
+      }
+
+      if (password !== confirmPassword) {
+        return errorMessage.value = 'The passwords do not match.';
+      }
+
+      if (password !== confirmPassword) {
+        return errorMessage.value = 'The password and confirm password do not match.'
+      };
+
       const { data } = await axios.patch(`${import.meta.env.VITE_APP_API_URL}/users`, user.value);
 
       successMessage.value = data.message;
