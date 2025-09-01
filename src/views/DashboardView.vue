@@ -10,9 +10,9 @@
   const router = useRouter();
 
   const {
-    data: apiData,
-    error: apiError,
-    isLoading: saveLoading,
+    data,
+    error,
+    saveLoading,
     execute
   } = useApi();
 
@@ -39,13 +39,13 @@
 
   const getProducts = async () => {
     await execute('GET', '/products');
-    if (apiData.value) {
-      products.value = apiData.value.data;
+    if (data.value) {
+      products.value = data.value.data;
     }
   };
 
   const openAddDialog = () => {
-    apiError.value = '';
+    error.value = '';
     product.value = {
       id: null,
       stock: '',
@@ -63,15 +63,15 @@
   };
 
   const openEditDialog = (item) => {
-    apiError.value = '';
+    error.value = '';
     product.value = { ...item };
     showModal.value = true;
   };
 
   const handleRemove = async (product) => {
     await execute('DELETE', `/products/${product.id}`);
-    if (apiData.value) {
-      showToast(apiData.value.message, 'success');
+    if (data.value) {
+      showToast(data.value.message, 'success');
       getProducts();
     }
   };
@@ -79,22 +79,24 @@
   const handleSave = async (product) => {
     if (product.id) {
       await execute('PUT', `/products/${product.id}`, product);
-      if (apiData.value) {
-        showToast(apiData.value.message, 'success');
+      if (data.value) {
+        showToast(data.value.message, 'success');
         getProducts();
         showModal.value = false;
       }
     } else {
       await execute('POST', '/products', product);
-      if (apiData.value) {
-        showToast(apiData.value.message, 'success');
+      if (data.value) {
+        showToast(data.value.message, 'success');
         getProducts();
         showModal.value = false;
       }
     }
   };
 
-  getProducts();
+  onMounted(() => {
+    getProducts();
+  });
 </script>
 
 <template>
@@ -154,8 +156,8 @@
     v-model="showModal"
     :product="product"
     :loading="saveLoading"
-    :alertMessage="!!apiError"
-    :errorMessage="apiError ? apiError.message : ''"
+    :alertMessage="!!error"
+    :errorMessage="error ? error.message : ''"
     @save="handleSave"
   />
 </template>

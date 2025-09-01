@@ -15,7 +15,7 @@ const api = axios.create({
 export function useApi() {
   const data = ref(null);
   const error = ref(null);
-  const isLoading = ref(false);
+  const saveLoading = ref(false);
   const userStore = useUserStore();
   const { showToast } = useToast();
 
@@ -53,7 +53,7 @@ export function useApi() {
 
   // 5. Función para ejecutar la petición
   const execute = async (method, url, body = null) => {
-    isLoading.value = true;
+    saveLoading.value = true;
     data.value = null;
     error.value = null;
 
@@ -67,14 +67,14 @@ export function useApi() {
     } catch (err) {
       error.value = err.response ? err.response.data : err.message;
     } finally {
-      isLoading.value = false;
+      saveLoading.value = false;
     }
   };
 
   return {
     data,
     error,
-    isLoading,
+    saveLoading,
     execute,
   };
 }
