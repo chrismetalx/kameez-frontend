@@ -9,12 +9,7 @@
   const { showToast } = useToast();
   const router = useRouter();
 
-  const {
-    data,
-    error,
-    saveLoading,
-    execute
-  } = useApi();
+  const { data, error, saveLoading, execute } = useApi();
 
   const products = ref([]);
   const showModal = ref(false);

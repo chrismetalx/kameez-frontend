@@ -1,30 +1,27 @@
 <script setup>
-  import { ref, watchEffect } from 'vue';
+  import { onMounted, ref } from 'vue';
   import { useRoute, useRouter } from 'vue-router';
   import { useApi } from '@/composables/useApi';
+
   const route = useRoute();
   const router = useRouter();
-
-  const {
-    data: apiData,
-    error: apiError,
-    isLoading: saveLoading,
-    execute
-  } = useApi();
+  const { data, execute } = useApi();
+  const product = ref({});
 
   const back = () => {
     router.push('/dashboard');
   };
 
-  const product = ref({});
   const showProductData = async () => {
     await execute('GET', `/products/${route.params.id}`);
-    if (apiData.value) {
-      product.value = apiData.value.data;
+    if (data.value) {
+      product.value = data.value.data;
     }
   };
 
-  showProductData();
+  onMounted(() => {
+    showProductData();
+  })
 </script>
 
 <template>
