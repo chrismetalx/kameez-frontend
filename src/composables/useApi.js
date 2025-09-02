@@ -6,12 +6,10 @@ import { useToast } from '../composables/useToast';
 
 let isRedirecting = false;
 
-// 1. Configurar la instancia de Axios
 const api = axios.create({
   baseURL: import.meta.env.VITE_APP_API_URL
 });
 
-// 2. Composable principal
 export function useApi() {
   const data = ref(null);
   const error = ref(null);
@@ -19,7 +17,6 @@ export function useApi() {
   const userStore = useUserStore();
   const { showToast } = useToast();
 
-  // 3. Interceptor para inyectar el token de autenticación
   api.interceptors.request.use(
     (config) => {
       const token = userStore.token;
@@ -33,7 +30,6 @@ export function useApi() {
     }
   );
 
-  // 4. Interceptor para manejar errores de autorización
   api.interceptors.response.use(
     (response) => response,
     (err) => {
@@ -51,7 +47,6 @@ export function useApi() {
     }
   );
 
-  // 5. Función para ejecutar la petición
   const execute = async (method, url, body = null) => {
     saveLoading.value = true;
     data.value = null;
