@@ -36,7 +36,7 @@ export function useApi() {
       if (err.response && err.response.status === 403 && !isRedirecting) {
         isRedirecting = true;
         userStore.resetState();
-        showToast('Your session has expired. Please log in again.', 'error');
+        showToast('Your session has expired. Please log in again.', 'error', 7000);
 
         setTimeout(() => {
           router.push('/');
